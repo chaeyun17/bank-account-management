@@ -7,9 +7,10 @@ import javax.persistence.Id;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Getter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class Account {
     
     @Id
@@ -22,6 +23,7 @@ public class Account {
     
     private ACCOUNT_TYPE type;
     
+    // account-number. ex) 111-23-14457
     private String number;
     
     private String description;
@@ -37,12 +39,14 @@ public class Account {
         this.balance = account.balance;
     }
     
-    Account(String purpose, String bankName, ACCOUNT_TYPE type, String number, long balance){
+    Account(long id, String purpose, String bankName, ACCOUNT_TYPE type, String number, String description, long balance){
+        this.accountId = id;
         this.purpose = purpose;
         this.bankName = bankName;
         this.type = type;
         this.number = number;
+        this.description = description;
         this.balance = balance;
     }
-    
+
 }

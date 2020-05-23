@@ -20,7 +20,6 @@ public interface AccountService{
 
 	/**
 	 * <p>요청한 데이터를 DB에 저장한다.
-	 * <p>유효하지 않는 값일 경우, 에러를 리턴한다.
 	 */
 	AccountDto save(AccountCreationDto dto);
 	

@@ -2,6 +2,7 @@ package org.yunfactory.bank_account_management.bank_account;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,13 +40,13 @@ public class AccountController {
      * <p>처리한 데이터 결과를 JSON 으로 변환하여 HTTP Response Body에 추가한다. (라이브러리)
      */
     @PostMapping("/api/accounts")
-    public AccountDto save(@RequestBody AccountCreationDto dto){
+    public AccountDto save(@Validated @RequestBody AccountCreationDto dto){
         return accountService.save(dto);
     }
 
     @PutMapping("/api/accounts/{id}")
     public AccountDto modify(@PathVariable long id,
-                            @RequestBody AccountCreationDto dto){
+                            @Validated @RequestBody AccountCreationDto dto){
         return accountService.modify(id, dto);
     }
     

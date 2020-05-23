@@ -19,9 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountCreationDto;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountDto;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountMapper;
+import org.yunfactory.bank_account_management.bank_account.excpetions.AccountBadRequestException;
+import org.yunfactory.bank_account_management.bank_account.excpetions.AccountNotFoundException;
 import org.yunfactory.bank_account_management.bank_account.service.AccountService;
 import org.yunfactory.bank_account_management.bank_account.service.AccountServiceImpl;
-import org.yunfactory.bank_account_management.excpetions.AccountNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTest {
@@ -37,14 +38,24 @@ public class AccountServiceTest {
 
     private List<Account> accounts;
 
+    private AccountCreationDto creationDto;
+
+    private AccountDto accountDto;
+
+    private Account account;
+
     @BeforeEach
     public void setup(){
         accountService = new AccountServiceImpl(repository, accountMapper);
         List<Account> accountList = new ArrayList<>();
-        accountList.add(new Account("purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", 0));
-        accountList.add(new Account("purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", 0));
-        accountList.add(new Account("purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", 0));
+        accountList.add(new Account(1L, "purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", "description", 0));
+        accountList.add(new Account(2L, "purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", "description", 0));
+        accountList.add(new Account(3L, "purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", "description", 0));
         accounts = accountList;
+
+        this.account = new Account(4L, "purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", "description", 0);
+        this.creationDto = new AccountCreationDto(account.getPurpose(), account.getBankName(), account.getType(), account.getNumber(), account.getDescription(), 0);
+        this.accountDto = new AccountDto(account.getAccountId(), account.getPurpose(), account.getBankName(), account.getType(), account.getNumber(), account.getDescription(), account.getBalance());
     }
 
     @Test
@@ -83,13 +94,11 @@ public class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Account 생성 DTO로, 저장을 하면, AccountDTO를 반환한다.")
+    @DisplayName("AccountCreationDTO로, 저장을 하면, AccountDTO를 반환한다.")
     public void Given_AccountCreationDTO_When_Save_Then_Return_AccountDTO(){
         // given
-        AccountCreationDto creationDto = new AccountCreationDto("purpose", "bankName", ACCOUNT_TYPE.CHECKING, "number", "description", 0);
-        AccountDto accountDto = new AccountDto(1L, creationDto.getPurpose(), creationDto.getBankName(), creationDto.getType(), creationDto.getNumber(), creationDto.getDescription(), creationDto.getBalance());
         Mockito.when(accountMapper.map(any(AccountCreationDto.class)))
-                .thenReturn(new Account());
+                .thenReturn(account);
         Mockito.when(accountMapper.map(any(Account.class)))
                 .thenReturn(accountDto);
         
@@ -97,11 +106,46 @@ public class AccountServiceTest {
         AccountDto returnedDto = accountService.save(creationDto);
 
         // then
-        assertEquals(creationDto.getBalance(), returnedDto.getBalance());
-        assertEquals(creationDto.getBankName(), returnedDto.getBankName());
-        assertEquals(creationDto.getDescription(), returnedDto.getDescription());
-        assertEquals(creationDto.getNumber(), returnedDto.getNumber());
-        assertEquals(creationDto.getPurpose(), returnedDto.getPurpose());
-        assertEquals(creationDto.getType(), returnedDto.getType());
+        assertIsEqauls(creationDto, returnedDto);
     }
+
+    @Test
+    @DisplayName("ID와 AccountCreationDTO로, 수정을 하면, AccountDto를 반환한다.")
+    public void Given_AccountCreationDTO_When_Modify_Then_Returned_AccountDto(){
+        // given
+        long accountId = account.getAccountId();
+        Mockito.when(accountMapper.map(any(AccountCreationDto.class)))
+                .thenReturn(account);
+        Mockito.when(repository.findById(accountId)).thenReturn(Optional.of(account));
+        Mockito.when(accountMapper.map(any(Account.class)))
+                .thenReturn(accountDto);
+        
+        // when
+        AccountDto returnedDto = accountService.modify(accountId, creationDto);
+
+        // then
+        assertIsEqauls(creationDto, returnedDto);
+    }
+
+    private void assertIsEqauls(AccountCreationDto creationDto, AccountDto accountDto){
+        assertEquals(creationDto.getBalance(), accountDto.getBalance());
+        assertEquals(creationDto.getBankName(), accountDto.getBankName());
+        assertEquals(creationDto.getDescription(), accountDto.getDescription());
+        assertEquals(creationDto.getNumber(), accountDto.getNumber());
+        assertEquals(creationDto.getPurpose(), accountDto.getPurpose());
+        assertEquals(creationDto.getType(), accountDto.getType());
+    }                                                                                                                                   
+
+    @Test
+    @DisplayName("유효하지 않은 ID로, 수정을 하면, BadRequestExcpetion을 반환한다.")
+    public void Given_Invalid_Id_When_Modify_Then_Throw_BadRequestException(){
+        // given
+        long invalidId = -1L;
+
+        // when & then
+        assertThrows(AccountBadRequestException.class, ()->accountService.modify(invalidId, creationDto));
+
+    }
+
+
 }   

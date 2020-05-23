@@ -10,7 +10,8 @@ import org.yunfactory.bank_account_management.bank_account.AccountRepository;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountCreationDto;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountDto;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountMapper;
-import org.yunfactory.bank_account_management.excpetions.AccountNotFoundException;
+import org.yunfactory.bank_account_management.bank_account.excpetions.AccountBadRequestException;
+import org.yunfactory.bank_account_management.bank_account.excpetions.AccountNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
-    @Override
+    @Override           
     public AccountDto save(AccountCreationDto dto) {
         Account account = mapper.map(dto);
         accountRepository.save(account);
@@ -49,7 +50,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto modify(long id, AccountCreationDto dto) {
         Account update = mapper.map(dto);
-        Account persist = accountRepository.findById(id).orElseThrow();
+        Account persist = accountRepository.findById(id)
+                                            .orElseThrow(AccountBadRequestException::new);
         persist.updateOverride(update);
         accountRepository.save(persist);
         return mapper.map(persist);
