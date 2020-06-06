@@ -1,4 +1,8 @@
 
+/src/main/resources/static/**
+/frontend/dist/**
+
+
 # Created by https://www.toptal.com/developers/gitignore/api/git,java,gradle,eclipse,java-web,intellij,code-java,visualstudiocode,vue,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,java,gradle,eclipse,java-web,intellij,code-java,visualstudiocode,vue,node
 
