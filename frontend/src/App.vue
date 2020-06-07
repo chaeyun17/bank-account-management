@@ -1,19 +1,28 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |  -->
+      <router-link to="/account">Account</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  mounted() {
+    // console.log(this.process.env.VUE_APP_NOT_SECRET_CODE);
+  },
+}
+</script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
 }
 
