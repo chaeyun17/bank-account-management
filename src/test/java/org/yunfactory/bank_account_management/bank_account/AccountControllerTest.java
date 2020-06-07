@@ -40,7 +40,7 @@ public class AccountControllerTest {
     }
     
     @Test
-    @DisplayName("Account 정보로, 저장할 시, OK 반환")
+    @DisplayName("Account 정보로, 저장할 시, CREATED 반환")
     public void Given_account_When_Save_Tuen_Returned_OK() throws Exception{
         // given
         String content = mapper.writeValueAsString(accountCreationDto);
@@ -48,7 +48,7 @@ public class AccountControllerTest {
         // when then
         mvc.perform(post("/api/accounts").header("content-type", "application/json").content(content))
             .andDo(print())
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
     }
 
     @Test

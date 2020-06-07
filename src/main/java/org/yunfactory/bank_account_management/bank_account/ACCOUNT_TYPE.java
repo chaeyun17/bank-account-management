@@ -7,7 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ACCOUNT_TYPE {
     
-    CHECKING("입출금"), SAVING("적금"), TERM_DEPOSIT("정기예금");
+    CHECKING("CHECKING"), // 입출금
+    SAVING("SAVING"),  // 적금
+    TERM_DEPOSIT("TERM_DEPOSIT"); // 정기예금
     
     private String name;
 }
