@@ -1,7 +1,28 @@
 <template>
   <div>
     <b-container>
-      <h1>계좌 등록</h1>
+      <h1>계좌 목록</h1>
+      <div style="margin: auto">
+          <b-card
+            v-for="account in accounts"
+            v-bind:key="account.accountId"
+            v-bind:title="`${account.purpose} (${account.bankName})`"
+            class="mb-2 mx-2"
+          >
+            <b-card-text class="mb-1">{{account.number}} {{account.type}}</b-card-text>
+            <b-card-text class="mb-1" style="text-align:right; font-weight:bolder; font-size:2rem">{{account.balance}} 원</b-card-text>
+          </b-card>
+          <b-card
+            bg-variant="secondary" 
+            text-variant="white"
+            class="mb-2 mx-2 text-center"
+            @click="onRegist"
+          >
+          <b-icon icon="plus" font-scale="4"></b-icon>
+          </b-card>
+      </div>
+      <hr>
+      <h1 ref="sectionRegist">계좌 등록</h1>
       <div>
         <b-form @submit.prevent="onSubmit" v-if="isRegist">
           <b-form-group id="purpose-group" label="용도:" label-for="purpose">
@@ -33,7 +54,7 @@
 export default {
   data() {
     return {
-      isRegist: true,
+      isRegist: false,
       accountTypes: [
         { text: '입출금통장', value: 'CHECKING' },
         { text: '적금통장', value: 'SAVING' },
@@ -47,21 +68,41 @@ export default {
         description: "",
         balance: 0,
       },
+      accounts: [],
+      variants:[
+        'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'dark'
+      ],
     }
   },
   mounted() {
-    
+    this.getAccounts();
   },
   methods: {
     onSubmit(){
-      const baseURI = this.$uri + '/api/accounts';
-      
-        this.$axios.post(baseURI, this.accountForm)
-                    .then(result=>console.log(result));
-        // fetch('http:///api/accounts')
-        //   .catch(err=>{console.log(err)})
-        //   .then(reponse=>console.log(response))
-    }
+      const baseURI = `${this.$uri}/api/accounts'`;
+      this.$axios.post(baseURI, this.accountForm)
+                  .then(res=>{
+                    console.log(res.data);
+                    this.isRegist = false;
+                    this.getAccounts();
+                  })
+                  .catch(err=>console.error(err));
+    },
+    getAccounts(){
+      const baseURI = `${this.$uri}/api/accounts`;
+      this.$axios.get(baseURI)
+                  .then(res=>this.accounts = res.data)
+                  .catch(err=>console.error(err));
+    },
+    onRegist(){
+      if(!this.isRegist){
+        this.$refs.sectionRegist.scrollIntoView();
+      }
+      this.isRegist = !this.isRegist;
+    },
+    randomVariant(){
+      return this.variants[Math.floor(Math.random() * this.variants.length)];
+    },
   },
 }
 </script>

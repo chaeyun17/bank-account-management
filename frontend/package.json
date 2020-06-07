@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode dev",
+    "serve": "vue-cli-service serve --mode dev --port 8090",
     "build:dev": "vue-cli-service build --mode dev --dest ../src/main/resources/static/",
     "build": "vue-cli-service build --dest ../src/main/resources/static/",
     "test:unit": "vue-cli-service test:unit",
