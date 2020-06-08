@@ -35,6 +35,11 @@ public class AccountController {
         return accountService.getAll();
     }
 
+    @GetMapping("/api/accounts/{id}")
+    public AccountDto getById(@PathVariable Long id){
+        return accountService.getById(id);
+    }
+
     @DeleteMapping("/api/accounts/{id}")
     public boolean deleteById(@PathVariable long id){
         return accountService.deleteById(id);

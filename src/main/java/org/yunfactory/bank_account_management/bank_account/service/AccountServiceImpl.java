@@ -60,5 +60,10 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(persist);
         return mapper.map(persist);
     }
+
+    @Override
+    public AccountDto getById(Long id) {
+        return mapper.map(accountRepository.findById(id).orElseThrow());
+    }
     
 }

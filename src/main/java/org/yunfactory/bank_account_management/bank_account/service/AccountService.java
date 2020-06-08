@@ -28,5 +28,7 @@ public interface AccountService{
      * <p>존재하지 않는 id 값을 요청했을 시, 에러를 리턴한다.
      */
 	AccountDto modify(long id, AccountCreationDto dto);
+
+	AccountDto getById(Long id);
     
 }
