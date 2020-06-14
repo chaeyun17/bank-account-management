@@ -9,10 +9,9 @@
             v-bind:title="`${account.purpose} (${account.bankName})`"
             class="mb-2 mx-2 pointer"
             @click="onShowDetail(account.accountId)"
-            
           >
             <b-card-text  class="mb-1">{{account.number}} {{account.type}}</b-card-text>
-            <b-card-text class="mb-1" style="text-align:right; font-weight:bolder; font-size:2rem">{{account.balance}} 원</b-card-text>
+            <b-card-text class="mb-1" style="text-align:right; font-weight:bolder; font-size:2rem">{{splitByThousand(account.balance)}} 원</b-card-text>
           </b-card>
           <b-card
             bg-variant="secondary" 
@@ -54,7 +53,7 @@
         <p><span class="account-detail-col-title">ID</span>|<span class="account-detail-col-data">{{accountDetail.accountId}}</span></p>
         <p><span class="account-detail-col-title">계좌번호</span>|<span class="account-detail-col-data">{{accountDetail.number}}</span></p>
         <p><span class="account-detail-col-title">은행명</span>|<span class="account-detail-col-data">{{accountDetail.bankName}}</span></p>
-        <p><span class="account-detail-col-title">잔액</span>|<span class="account-detail-col-data">{{accountDetail.balance}}</span> 원</p>
+        <p><span class="account-detail-col-title">잔액</span>|<span class="account-detail-col-data">{{splitByThousand(accountDetail.balance)}}</span> 원</p>
         <p><span class="account-detail-col-title">용도</span>|<span class="account-detail-col-data">{{accountDetail.purpose}}</span></p>
         <p><span class="account-detail-col-title">유형</span>|<span class="account-detail-col-data">{{accountDetail.type}}</span></p>
         <p><span class="account-detail-col-title">세부설명</span>|<span class="account-detail-col-data">{{accountDetail.description}}</span></p>
@@ -168,6 +167,11 @@ export default {
                       reject(err);
                     });
       });
+    },
+    splitByThousand(number){
+      if(number <= 0) return "0";
+      let regex = /\d{3}/g;
+      return number.toString().match(regex).join(',');
     }
   },
 }
