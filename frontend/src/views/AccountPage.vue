@@ -60,7 +60,7 @@
         <p><span class="account-detail-col-title">세부설명</span>|<span class="account-detail-col-data">{{accountDetail.description}}</span></p>
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="onDelete(accountDetail.accountId)">삭제</b-button>
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">닫기</b-button>
+      <b-button class="mt-3" variant="outline-dark" block @click="hideModal">닫기</b-button>
     </b-modal>
   </div>
 </template>
