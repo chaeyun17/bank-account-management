@@ -23,9 +23,9 @@
           </b-card>
       </div>
       <hr>
-      <h1 ref="sectionRegist">계좌 등록</h1>
       <div>
-        <b-form @submit.prevent="onSubmit" v-if="isRegist">
+        <b-form @submit.prevent="onSubmit" v-show="isRegist">
+          <h1 ref="sectionRegist">계좌 등록</h1>
           <b-form-group id="purpose-group" label="용도:" label-for="purpose">
             <b-form-input id="purpose" v-model="accountForm.purpose" type="text" required placeholder="저축, 소비, 자동이체 등"></b-form-input>
           </b-form-group>
@@ -170,8 +170,8 @@ export default {
     },
     splitByThousand(number){
       if(number <= 0) return "0";
-      let regex = /\d{3}/g;
-      return number.toString().match(regex).join(',');
+      let regex = /\B(?=(\d{3})+(?!\d))/g;
+      return number.toString().replace(regex,",");
     }
   },
 }
