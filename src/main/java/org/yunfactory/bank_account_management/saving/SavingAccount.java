@@ -21,13 +21,13 @@ public class SavingAccount{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long savingId;
+    private Long savingId;
 
-    private long amount;
+    private Long amount;
     
-    private int transferDay;
+    private Integer transferDay;
     
-    private int interestRate;
+    private Integer interestRate;
     
     private LocalDate openingDate;
     

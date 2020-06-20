@@ -29,7 +29,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	compile 'org.modelmapper:modelmapper:2.3.7'
+	implementation 'org.modelmapper:modelmapper:2.3.7'
 	implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final'
 
 }
