@@ -1,3 +1,6 @@
 #!/bin/bash
 
-rm /home/ubuntu/deploy/bank_account/*.jar
+FILE=/home/ubuntu/deploy/bank_account/*.jar
+if [ -f "$FILE" ]; then
+    rm $FILE
+fi
