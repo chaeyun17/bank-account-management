@@ -7,11 +7,11 @@ phases:
   install:
     runtime-versions:
       nodejs: 10
-  build:
+  pre_build:
     commands:
-      - echo Build started on `date`
-      - ./gradlew test 
-  post_build:
+      - echo Test started on `date`
+      - ./gradlew test
+  build:
     commands:
       - echo Build completed on `date`
       - ./gradlew bootJar

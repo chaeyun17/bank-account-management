@@ -62,10 +62,6 @@ task copyWebApp(type: Copy) {
     into "${project.projectDir}/src/main/resources/static/."
 }
 
-task buildFrontend(type: GradleBuild){
-	tasks = ['appNpmInstall', 'npmBuild', 'copyWebApp']
-}
-
-bootJar{
-	dependsOn buildFrontend
-}
+npmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn npmBuild
+compileJava.dependsOn copyWebApp
