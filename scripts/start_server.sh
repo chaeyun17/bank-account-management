@@ -26,4 +26,9 @@ JAR_NAME=$(ls $REPOSITORY/jar/ |grep 'bank_account_management' | tail -n 1)
 
 echo "> JAR Name: $JAR_NAME"
 
-nohup java -jar $REPOSITORY/jar/$JAR_NAME --spring.profiles.active=prod > bank-app.log &
+nohup java -jar $REPOSITORY/jar/$JAR_NAME --spring.profiles.active=prod > bank-app.log 2>&1 &
+
+echo ">Started Server"
+
+
+
