@@ -100,6 +100,13 @@ export default {
   mounted() {
     this.fetchAccounts();
   },
+  updated() {
+    if(this.isRegist){
+      this.$refs.sectionRegist.scrollIntoView(
+        {behavior: "smooth", block: "start", inline: "nearest"}
+      );
+    }
+  },
   methods: {
     onSubmit(){
       const baseURI = `${this.$uri}/api/accounts`;
@@ -118,9 +125,6 @@ export default {
                   .catch(err=>console.error(err));
     },
     onRegist(){
-      if(!this.isRegist){
-        this.$refs.sectionRegist.scrollIntoView();
-      }
       this.isRegist = !this.isRegist;
     },
     randomVariant(){
