@@ -114,6 +114,14 @@ export default {
                   .then(res=>{
                     console.log(res.data);
                     this.isRegist = false;
+                    this.accountForm = {
+                      purpose: "",
+                      bankName: "",
+                      type: "",
+                      number: "",
+                      description: "",
+                      balance: 0,
+                    };
                     this.fetchAccounts();
                   })
                   .catch(err=>console.error(err));
@@ -134,6 +142,7 @@ export default {
       this.$refs['account-detail-modal'].hide();
     },
     onShowDetail(accountId){
+      this.isRegist = false;
       this.fetchAccountDetail(accountId)
           .then(res=>{
             this.$refs['account-detail-modal'].show();
