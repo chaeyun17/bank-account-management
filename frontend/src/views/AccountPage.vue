@@ -10,7 +10,7 @@
             class="mb-2 mx-2 pointer"
             @click="onShowDetail(account.accountId)"
           >
-            <b-card-text  class="mb-1">{{account.number}} {{account.type}}</b-card-text>
+            <b-card-text  class="mb-1">{{account.number}} {{mapTypes(account.type)}}</b-card-text>
             <b-card-text class="mb-1" style="text-align:right; font-weight:bolder; font-size:2rem">{{splitByThousand(account.balance)}} 원</b-card-text>
           </b-card>
           <b-card
@@ -55,7 +55,7 @@
         <p><span class="account-detail-col-title">은행명</span>|<span class="account-detail-col-data">{{accountDetail.bankName}}</span></p>
         <p><span class="account-detail-col-title">잔액</span>|<span class="account-detail-col-data">{{splitByThousand(accountDetail.balance)}}</span> 원</p>
         <p><span class="account-detail-col-title">용도</span>|<span class="account-detail-col-data">{{accountDetail.purpose}}</span></p>
-        <p><span class="account-detail-col-title">유형</span>|<span class="account-detail-col-data">{{accountDetail.type}}</span></p>
+        <p><span class="account-detail-col-title">유형</span>|<span class="account-detail-col-data">{{mapTypes(accountDetail.type)}}</span></p>
         <p><span class="account-detail-col-title">세부설명</span>|<span class="account-detail-col-data">{{accountDetail.description}}</span></p>
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="onDelete(accountDetail.accountId)">삭제</b-button>
@@ -185,6 +185,11 @@ export default {
       if(number <= 0) return "0";
       let regex = /\B(?=(\d{3})+(?!\d))/g;
       return number.toString().replace(regex,",");
+    },
+    mapTypes(type){
+      const found = this.accountTypes.find(ele=>ele.value == type);
+      if(found == undefined) return type;
+      return found.text;
     }
   },
 }
