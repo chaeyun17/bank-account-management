@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-container>
-      <h1>계좌 목록</h1>
       <div style="margin: auto">
           <b-card
             v-for="account in accounts"
@@ -51,22 +50,22 @@
         <b-form @submit.prevent="onSubmitModify" v-show="isModify">
           <h1 ref="sectionModify">계좌 수정</h1>
           <b-form-group id="purpose-group" label="용도:" label-for="purpose">
-            <b-form-input id="purpose" v-model="accountForm.purpose" type="text" required placeholder="저축, 소비, 자동이체 등"></b-form-input>
+            <b-form-input id="purpose" v-model="accountModify.purpose" type="text" required placeholder="저축, 소비, 자동이체 등"></b-form-input>
           </b-form-group>
           <b-form-group id="bankName-group" label="은행명:" label-for="bankName">
-            <b-form-input id="bankName" v-model="accountForm.bankName" type="text" required placeholder="신한은행, 국민은행, 부산은행 등"></b-form-input>
+            <b-form-input id="bankName" v-model="accountModify.bankName" type="text" required placeholder="신한은행, 국민은행, 부산은행 등"></b-form-input>
           </b-form-group>
           <b-form-group id="type-group" label="계좌 유형:" label-for="type">
-            <b-form-select id="type" v-model="accountForm.type" :options="accountTypes" required ></b-form-select>
+            <b-form-select id="type" v-model="accountModify.type" :options="accountTypes" required ></b-form-select>
           </b-form-group>
           <b-form-group id="number-group" label="계좌번호:" label-for="number">
-            <b-form-input id="number" v-model="accountForm.number" type="text" required placeholder="12-123-12345"></b-form-input>
+            <b-form-input id="number" v-model="accountModify.number" type="text" required placeholder="12-123-12345"></b-form-input>
           </b-form-group>
           <b-form-group id="description-group" label="상세설명:" label-for="description">
-            <b-form-input id="description" v-model="accountForm.description" type="text" required placeholder="상세설명"></b-form-input>
+            <b-form-input id="description" v-model="accountModify.description" type="text" required placeholder="상세설명"></b-form-input>
           </b-form-group>
           <b-form-group id="balance-group" label="잔액(원):" label-for="balance">
-            <b-form-input id="balance" v-model="accountForm.balance" type="number" required placeholder="1000"></b-form-input>
+            <b-form-input id="balance" v-model="accountModify.balance" type="number" required placeholder="1000"></b-form-input>
           </b-form-group>
           <b-button type="submit" variant="primary">제출</b-button>
         </b-form>
@@ -174,6 +173,8 @@ export default {
     },
     onRegist(){
       this.isRegist = !this.isRegist;
+      if(this.isModify) 
+        this.isModify = false;
     },
     randomVariant(){
       return this.variants[Math.floor(Math.random() * this.variants.length)];
@@ -232,15 +233,16 @@ export default {
       return found.text;
     },
     onModify(accountId){
+      if(this.isRegist) this.isRegist = false;
       this.fetchAccountDetail(accountId).then(res=>{
         this.accountModify = res.data;
         this.hideModal();
-        this.isModify = !this.isModify;
+        this.isModify = true;
       });
     },
     onSubmitModify(accountId){
       const baseURI = `${this.$uri}/api/accounts/${this.accountModify.accountId}`;
-      this.$axios.put(baseURI, this.accountForm)
+      this.$axios.put(baseURI, this.accountModify)
                   .then(res=>{
                     console.log(res.data);
                     this.isModify = false;
