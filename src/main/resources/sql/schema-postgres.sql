@@ -1,9 +1,3 @@
--- public.account definition
-
--- Drop table
-
--- DROP TABLE public.account;
-
 CREATE TABLE public.account (
 	account_id bigserial NOT NULL,
 	balance int8 NOT NULL,
@@ -15,12 +9,6 @@ CREATE TABLE public.account (
 	CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
--- public.distribution definition
-
--- Drop table
-
--- DROP TABLE public.distribution;
-
 CREATE TABLE public.distribution (
 	id bigserial NOT NULL,
 	amount int8 NOT NULL,
@@ -28,12 +16,6 @@ CREATE TABLE public.distribution (
 	transfer_day int4 NOT NULL,
 	CONSTRAINT distribution_pkey PRIMARY KEY (id)
 );
-
--- public.fixed_expenditure definition
-
--- Drop table
-
--- DROP TABLE public.fixed_expenditure;
 
 CREATE TABLE public.fixed_expenditure (
 	id bigserial NOT NULL,
@@ -46,15 +28,8 @@ CREATE TABLE public.fixed_expenditure (
 );
 
 
--- public.fixed_expenditure foreign keys
-
 ALTER TABLE public.fixed_expenditure ADD CONSTRAINT fk7smgfwfh615ybuyl7sxvojpcs FOREIGN KEY (account_id) REFERENCES account(account_id);
 
--- public.income definition
-
--- Drop table
-
--- DROP TABLE public.income;
 
 CREATE TABLE public.income (
 	id bigserial NOT NULL,
@@ -66,15 +41,7 @@ CREATE TABLE public.income (
 );
 
 
--- public.income foreign keys
-
 ALTER TABLE public.income ADD CONSTRAINT fkin0g6pdepytwjv6dvcqi45qq3 FOREIGN KEY (account_id) REFERENCES account(account_id);
-
--- public.saving_account definition
-
--- Drop table
-
--- DROP TABLE public.saving_account;
 
 CREATE TABLE public.saving_account (
 	saving_id bigserial NOT NULL,
@@ -88,15 +55,7 @@ CREATE TABLE public.saving_account (
 );
 
 
--- public.saving_account foreign keys
-
 ALTER TABLE public.saving_account ADD CONSTRAINT fklwwlw3lowc7ucdci4hddfm1f2 FOREIGN KEY (account_id) REFERENCES account(account_id);
-
--- public.temp_deposit definition
-
--- Drop table
-
--- DROP TABLE public.temp_deposit;
 
 CREATE TABLE public.temp_deposit (
 	id bigserial NOT NULL,

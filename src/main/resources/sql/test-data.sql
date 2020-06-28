@@ -1,0 +1,1 @@
+insert into account (account_id, balance, bank_name, description, number, purpose, type) values (1, 123, '부산은행', '설명', '123-123-123', '용도없음', 'CHECKING');

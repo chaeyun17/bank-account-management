@@ -47,6 +47,30 @@
           <b-button type="submit" variant="primary">제출</b-button>
         </b-form>
       </div>
+      <div>
+        <b-form @submit.prevent="onSubmitModify" v-show="isModify">
+          <h1 ref="sectionModify">계좌 수정</h1>
+          <b-form-group id="purpose-group" label="용도:" label-for="purpose">
+            <b-form-input id="purpose" v-model="accountForm.purpose" type="text" required placeholder="저축, 소비, 자동이체 등"></b-form-input>
+          </b-form-group>
+          <b-form-group id="bankName-group" label="은행명:" label-for="bankName">
+            <b-form-input id="bankName" v-model="accountForm.bankName" type="text" required placeholder="신한은행, 국민은행, 부산은행 등"></b-form-input>
+          </b-form-group>
+          <b-form-group id="type-group" label="계좌 유형:" label-for="type">
+            <b-form-select id="type" v-model="accountForm.type" :options="accountTypes" required ></b-form-select>
+          </b-form-group>
+          <b-form-group id="number-group" label="계좌번호:" label-for="number">
+            <b-form-input id="number" v-model="accountForm.number" type="text" required placeholder="12-123-12345"></b-form-input>
+          </b-form-group>
+          <b-form-group id="description-group" label="상세설명:" label-for="description">
+            <b-form-input id="description" v-model="accountForm.description" type="text" required placeholder="상세설명"></b-form-input>
+          </b-form-group>
+          <b-form-group id="balance-group" label="잔액(원):" label-for="balance">
+            <b-form-input id="balance" v-model="accountForm.balance" type="number" required placeholder="1000"></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">제출</b-button>
+        </b-form>
+      </div>
     </b-container>
     <b-modal ref="account-detail-modal" centered hide-footer title="통장 상세정보">
       <div class="d-block">
@@ -59,6 +83,7 @@
         <p><span class="account-detail-col-title">세부설명</span>|<span class="account-detail-col-data">{{accountDetail.description}}</span></p>
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="onDelete(accountDetail.accountId)">삭제</b-button>
+      <b-button class="mt-3" variant="outline-info" block @click="onModify(accountDetail.accountId)">수정</b-button>
       <b-button class="mt-3" variant="outline-dark" block @click="hideModal">닫기</b-button>
     </b-modal>
   </div>
@@ -69,6 +94,7 @@ export default {
   data() {
     return {
       isRegist: false,
+      isModify: false,
       accountTypes: [
         { text: '입출금통장', value: 'CHECKING' },
         { text: '적금통장', value: 'SAVING' },
@@ -94,6 +120,15 @@ export default {
         number: "11-123-12345",
         description: "desc",
         balance: 0,
+      },
+      accountModify:{
+        accountId: 0,
+        purpose: "purpose",
+        bankName: "bankName",
+        type: "SAVING",
+        number: "11-123-12345",
+        description: "desc",
+        balance: 0,
       }
     }
   },
@@ -103,6 +138,11 @@ export default {
   updated() {
     if(this.isRegist){
       this.$refs.sectionRegist.scrollIntoView(
+        {behavior: "smooth", block: "start", inline: "nearest"}
+      );
+    }
+    if(this.isModify){
+      this.$refs.sectionModify.scrollIntoView(
         {behavior: "smooth", block: "start", inline: "nearest"}
       );
     }
@@ -190,8 +230,33 @@ export default {
       const found = this.accountTypes.find(ele=>ele.value == type);
       if(found == undefined) return type;
       return found.text;
+    },
+    onModify(accountId){
+      this.fetchAccountDetail(accountId).then(res=>{
+        this.accountModify = res.data;
+        this.hideModal();
+        this.isModify = !this.isModify;
+      });
+    },
+    onSubmitModify(accountId){
+      const baseURI = `${this.$uri}/api/accounts/${this.accountModify.accountId}`;
+      this.$axios.put(baseURI, this.accountForm)
+                  .then(res=>{
+                    console.log(res.data);
+                    this.isModify = false;
+                    this.accountModify = {
+                      purpose: "",
+                      bankName: "",
+                      type: "",
+                      number: "",
+                      description: "",
+                      balance: 0,
+                    };
+                    this.fetchAccounts();
+                  })
+                  .catch(err=>console.error(err));
     }
-  },
+  }
 }
 </script>
 

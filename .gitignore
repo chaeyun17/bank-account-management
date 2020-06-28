@@ -307,9 +307,6 @@ typings/
 # TODO: where does this rule come from?
 docs/_book
 
-# TODO: where does this rule come from?
-test/
-
 ### Gradle ###
 .gradle
 build/
