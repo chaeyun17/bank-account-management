@@ -42,7 +42,7 @@ public class AccountIntegrationTest {
         String requestBody = mapper.writeValueAsString(creationDto);
 
         // when
-        ResultActions result = mockMvc.perform(put("/api/accounts/{id}", 1L)
+        ResultActions result = mockMvc.perform(put("/api/accounts/{id}", 2L)
                                                 .header("content-type", "application/json; charset=utf-8")
                                                 .content(requestBody));
         // then
