@@ -97,7 +97,8 @@ export default {
       accountTypes: [
         { text: '입출금통장', value: 'CHECKING' },
         { text: '적금통장', value: 'SAVING' },
-        { text: '정기예금통장', value: 'TERM_DEPOSIT' }
+        { text: '정기예금통장', value: 'TERM_DEPOSIT' },
+        { text: '주식통장', value: 'STOCK' }
       ],
       accountForm:{
         purpose: "",
