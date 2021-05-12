@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  install:
+    runtime-versions:
+      nodejs: 10
+  pre_build:
+    commands:
+      - echo Test started on `date`
+      - ./gradlew test
+  build:
+    commands:
+      - echo Build completed on `date`
+      - ./gradlew bootJar
+artifacts:
+  files:
+    - build/libs/bank_account_management-0.0.1-SNAPSHOT.jar
+    - appspec.yml
+    - scripts/*
+  name: bank-account-management
+  discard-paths: yes

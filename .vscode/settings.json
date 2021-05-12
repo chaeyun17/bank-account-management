@@ -1,4 +1,10 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.home": "/home/chaeyun/.sdkman/candidates/java/11.0.7.hs-adpt"
+    "java.home": "/home/chaeyun/.sdkman/candidates/java/11.0.7.hs-adpt",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
 }

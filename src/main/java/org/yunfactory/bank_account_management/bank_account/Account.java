@@ -1,6 +1,8 @@
 package org.yunfactory.bank_account_management.bank_account;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ public class Account {
     
     private String bankName;
     
+    @Enumerated(EnumType.STRING)
     private ACCOUNT_TYPE type;
     
     // account-number. ex) 111-23-14457

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.yunfactory.bank_account_management.bank_account.Account;
 import org.yunfactory.bank_account_management.bank_account.AccountRepository;
 import org.yunfactory.bank_account_management.bank_account.dto.AccountCreationDto;
@@ -32,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public boolean deleteById(long id) {
         Account account = accountRepository.findById(id)
                                             .orElseThrow(AccountNotFoundException::new);
@@ -39,7 +41,8 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
-    @Override           
+    @Override  
+    @Transactional         
     public AccountDto save(AccountCreationDto dto) {
         Account account = mapper.map(dto);
         accountRepository.save(account);
@@ -48,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional
     public AccountDto modify(long id, AccountCreationDto dto) {
         Account update = mapper.map(dto);
         Account persist = accountRepository.findById(id)
@@ -55,6 +59,11 @@ public class AccountServiceImpl implements AccountService {
         persist.updateOverride(update);
         accountRepository.save(persist);
         return mapper.map(persist);
+    }
+
+    @Override
+    public AccountDto getById(Long id) {
+        return mapper.map(accountRepository.findById(id).orElseThrow());
     }
     
 }
