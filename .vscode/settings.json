@@ -1,3 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.home": "/home/chaeyun/.sdkman/candidates/java/11.0.7.hs-adpt"
 }
